@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+  </head>
+  <style>
+    * {
+      /* background-color: black; */
+      margin: 0;
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: rgb(26, 24, 24);
+    }
+    .container {
+      width: 370px;
+
+      background: #2e2e2e;
+      padding: 4px;
+      position: relative;
+      overflow: hidden;
+      /* z-index: 3; */
+    }
+    .container::before {
+      position: absolute;
+      content: "";
+      width: 40%;
+      height: 150%;
+      background-color: white;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(35deg);
+      /* z-index:  1; */
+      transition: transform 1s ease;
+    }
+    .container:hover::before {
+      transform: translate(-50%, -50%) rotate(215deg);
+    }
+    .bin {
+      z-index: 10;
+      position: relative;
+      /* width: 100%; */
+      /* height: 100%; */
+
+      background: linear-gradient(
+        to top right,
+        rgb(28, 27, 27),
+        rgba(46, 43, 43)
+      );
+    }
+    .bout {
+      background: linear-gradient(
+        to top right,
+        rgb(28, 27, 27),
+        rgba(46, 43, 43)
+      );
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 20px;
+    }
+    .input-buttons {
+      /* border: 1px solid red; */
+      /* width: 100%; */
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      /* align-items: center; */
+    }
+    button {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      border: none;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: all 0.1s ease-out;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+      background-color: rgba(37, 39, 39, 0.852);
+      color: white;
+    }
+    .operator {
+      font-size: 1.8em;
+    }
+    .operator:hover {
+      font-size: 2em;
+    }
+
+    .light {
+      background-color: rgb(75, 75, 75);
+    }
+    .light:hover {
+      background-color: rgba(96, 96, 94, 0.611);
+    }
+    .equalbtn {
+      background-color: rgba(246, 163, 10, 0.933);
+    }
+    .equalbtn:hover {
+      background-color: rgba(194, 128, 7, 0.825);
+    }
+    button:hover {
+      font-size: 1.3em;
+      background-color: rgba(59, 57, 57, 0.903);
+      transform: scale(1.05);
+    }
+
+    .input-buttons div {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      /* border: 1px solid blue; */
+    }
+    #text {
+      width: 100%;
+      padding: 12px 4px;
+      text-align: right;
+      font-size: 1.5em;
+      background-color: transparent;
+      margin-bottom: 5px;
+      color: white;
+      border: 0.5px solid rgb(80, 79, 79);
+    }
+
+    .theme-switch {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 1.5em;
+      background: none;
+      border: none;
+      color: white;
+      z-index: 100;
+      transition: transform 0.3s ease;
+    }
+
+    .theme-switch:hover {
+      transform: scale(1.2);
+    }
+
+    /* Normal buttons in light theme */
+    .light-theme button:not(.equalbtn) {
+      color: black;
+      background-color: #fffafae6;
+      transition: background-color 0.5s, color 0.5s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2),
+        0 6px 20px rgba(71, 70, 70, 0.19);
+    }
+
+    .light-theme button.light {
+      background-color: #afaaaa;
+    }
+
+    .light-theme .bin {
+      background: linear-gradient(
+        to top right,
+        rgb(207, 205, 205),
+        rgba(203, 197, 197, 1)
+      );
+    }
+    .light-theme .bout,
+    .light-theme .container {
+      background: linear-gradient(
+        to top right,
+        rgb(240, 238, 238),
+        rgba(232, 230, 230, 0.9)
+      );
+    }
+
+    .light-theme .container::before {
+      background-color: #2e2e2e;
+    }
+
+    .light-theme .theme-switch {
+      color: black;
+    }
+    .light-theme #text {
+      color: black;
+    }
+  </style>
+  <body>
+    <div class="bout">
+      <div class="theme-switch" id="themeSwitch">🌙</div>
+      <div class="container">
+        <div class="bin">
+          <input type="text" id="text" name="text" value="" />
+          <div class="input-buttons">
+            <div>
+              <button class="light">AC</button>
+              <button class="light">%</button>
+              <button class="light">DEL</button>
+              <button class="light">DIV</button>
+            </div>
+            <div>
+              <button>7</button>
+              <button>8</button>
+              <button>9</button>
+              <button class="operator light">*</button>
+            </div>
+
+            <div>
+              <button>4</button>
+              <button>5</button>
+              <button>6</button>
+              <button class="operator light">-</button>
+            </div>
+            <div>
+              <button>1</button>
+              <button>2</button><button>3</button>
+              <button class="operator light">+</button>
+            </div>
+            <div>
+              <button>00</button>
+              <button>0</button>
+              <button class="operator">.</button>
+              <button class="equalbtn operator">=</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let buttons = document.getElementsByTagName("button");
+    let arr = Array.from(buttons);
+
+    arr.forEach((button) => {
+      button.addEventListener("click", function () {
+        write(this);
+      });
+    });
+
+    function write(button) {
+      let str = button.textContent;
+      let input = document.getElementById("text");
+
+      if (str === "AC") {
+        input.value = "";
+      } else if (str === "DEL") {
+        input.value = input.value.slice(0, -1);
+      } else if (str === "DIV") {
+        input.value += "/";
+      } else if (str === "*") {
+        input.value += "*";
+      } else if (str === "=") {
+        try {
+          input.value = eval(input.value);
+        } catch {
+          input.value = "Error";
+        }
+      } else {
+        input.value += str;
+      }
+    }
+    // theme------------------------------------
+    const themeSwitch = document.getElementById("themeSwitch");
+    const body = document.body;
+
+    themeSwitch.addEventListener("click", () => {
+      body.classList.toggle("light-theme");
+
+      // Toggle the icon
+      themeSwitch.textContent = body.classList.contains("light-theme")
+        ? "🌞"
+        : "🌙";
+    });
+  </script>
+</html>
